@@ -32,6 +32,15 @@ router
         // Handle rate limit error
         console.error("Rate limit exceeded. Waiting and retrying...");
         res.status(500).send("Rate limit exceeded retry...");
+      } else if (
+        error.response &&
+        error.response.data.error.message.includes("Billing hard limit")
+      ) {
+        res
+          .status(500)
+          .send(
+            "Billing limit reached. Please check your OpenAI billing settings."
+          );
       } else {
         // Handle other errors
         console.error(
